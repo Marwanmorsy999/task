@@ -1,0 +1,36 @@
+cat > .github/workflows/hello-world.yml << 'EOF'
+name: Hello World + Count → Sequential Jobs
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Echo Hello World (Job 1 - Start)
+        run: echo "Hello World"
+
+      - name: Count from 1 to 10
+        run: |
+          echo "🔢 Starting count..."
+          for i in {1..10}; do
+            echo "Count: $i"
+          done
+          echo "✅ Counting finished!"
+
+  after-hello:
+    runs-on: ubuntu-latest
+    needs: hello
+    steps:
+      - name: Echo after successful first job
+        run: echo "🎉 Job 2 running — first job (Hello + Count) succeeded!"
+EOF
+
+git add .github/workflows/hello-world.yml
+git commit -m "Update: first job now counts 1-10"
+git push
