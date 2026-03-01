@@ -1,0 +1,19 @@
+mkdir -p .github/workflows
+cat > .github/workflows/hello-world.yml << 'EOF'
+name: Echo Hello World on Push
+
+on:
+  push:
+    branches: [ main, master ]
+
+jobs:
+  hello:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Echo Hello World
+        run: echo "Hello World"
+EOF
